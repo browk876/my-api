@@ -1,4 +1,6 @@
 import express from 'express';
+import fetch from 'node-fetch';
+import axios from 'axios';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -16,5 +18,5 @@ app.get('/*', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Wskb app listening on port ${port}`);
+    console.log(`CatLiesAPI app listening on port ${port}`);
 });
