@@ -1,3 +1,4 @@
+// Import the express library and assign it to a variable
 import express from 'express';
 import fetch from 'node-fetch';
 import axios from 'axios';
@@ -15,22 +16,52 @@ const port = process.env.PORT || 5500;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/random-animal', async (req, res) => {
-    try {
-        const animalImage = await getRandomAnimalImage();
-        res.json({ image: animalImage });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-// Set the application to listen on a port
-app.listen(port, () => {
-    console.log(`Wskb app listening on port ${port}`);
-});
 
-async function getRandomAnimalImage() {
-    const loremPicsumUrl = 'https://picsum.photos/200/300/?random';
-    const response = await axios.get(loremPicsumUrl);
-    return response.request.res.responseUrl; 
-}
+app.get('/*', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+  })
+  
+  // Set the application to listen on a port
+  app.listen(port, () => {
+      console.log(`Wskb app listening on port ${port}`);
+  });
+
+  async function fetchRandomCat() {
+    const catImageContainer = document.getElementById('catImageContainer');
+    const catLieElement = document.getElementById('catLie');
+    catImageContainer.innerHTML = ''; 
+    catLieElement.textContent = ''; 
+  
+    try {
+      const response = await fetch('https://api.thecatapi.com/v1/images/search');
+      const data = await response.json();
+  
+      if (response.ok) {
+        const imageUrl = data[0].url;
+        const catImage = document.createElement('img');
+        catImage.src = imageUrl;
+        catImage.alt = 'Random Cat';
+        catImageContainer.appendChild(catImage);
+  
+        const catLies = [
+            "This cat once won a chess competition!",
+            "It can speak three languages, including Spanish and Aramaic .",
+            "This cat is a secret agent on a mission.",
+            "It's the CEO of Microsoft.",
+            "Once starred in Grey's Anatomy.",
+            "This cat is wanted by the FBI",
+            "Wrote a dissertation on the Israel-Palestine conflict",
+            "Allergic to bees and shellfish",
+            "Is a member of the Sinaloa Cartel",
+            "This cat won a silver medal in the 2004 Olympic long jump"
+        ];
+  
+        const randomLie = catLies[Math.floor(Math.random() * catLies.length)];
+        catLieElement.textContent = randomLie;
+      } else {
+        console.error(`Failed to fetch cat image. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error fetching cat image:', error.message);
+    }
+  }

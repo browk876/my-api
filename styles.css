@@ -1,0 +1,15 @@
+body {
+    font-family: 'Lexend', sans-serif;
+    background-color: lightyellow;
+    text-align: center;
+  }
+  
+  #catImageContainer {
+    margin-top: 20px; 
+  }
+  
+  img {
+    height: 400px;
+    width: auto; 
+    margin: 10px; 
+  }
