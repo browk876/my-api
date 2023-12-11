@@ -1,14 +1,15 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const axios = require('axios');
-const path = require('path');
-const { fileURLToPath } = require('url');
-const { dirname } = require('path');
+import express from 'express';
+import fetch from 'node-fetch';
+import axios from 'axios';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 const port = process.env.PORT || 5500;
+
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*'); 
@@ -17,12 +18,13 @@ app.use((req, res, next) => {
   next();
 });
 
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(__dirname + '/index.html');
 });
 
 app.listen(port, () => {
-  console.log(`CatLiesAPI app listening on port ${port}`);
+    console.log(`CatLiesAPI app listening on port ${port}`);
 });
